@@ -10,6 +10,7 @@ declare -r BUILD_PREFIX="${BUILD_DIR}/build/usr/local"
 
 
 declare -rx PKG_CONFIG_PATH="${BUILD_PREFIX}/lib/pkgconfig/"
+declare     TAGS=""
 mkdir -p "${BUILD_DIR}/build/usr/local"
 cd "${BUILD_DIR}"
 
@@ -21,6 +22,11 @@ function createLib()
 
 	git clone "${GIT_ADDRESS}"
 	cd "${NAME}"
+
+	local -r GIT_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+	git checkout "${GIT_TAG}" -b "${GIT_TAG}"
+	TAGS="${TAGS}${NAME} ${GIT_TAG}\n"
+
 	./autogen.sh
 	./configure --prefix="${BUILD_PREFIX}"
 	make
@@ -37,6 +43,7 @@ rm -f libimobiledevice_current
 ln -s "${CURRENT_BUILD}" libimobiledevice_current
 
 echo ""
+echo -e "${TAGS}"
 echo "Build success: e.g. set yout path to"
 echo "  export PATH=${CURRENT_DIR}/libimobiledevice_current/build/usr/local/bin:\$PATH"
 echo ""
