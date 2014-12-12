@@ -37,6 +37,7 @@ function createLib()
 createLib "https://github.com/libimobiledevice/libplist.git"
 createLib "https://github.com/libimobiledevice/libusbmuxd.git"
 createLib "https://github.com/libimobiledevice/libimobiledevice.git"
+#createLib "https://github.com/libimobiledevice/usbmuxd.git" ## fails as it is not possible to install the udev rule without root permission
 
 cd "${CURRENT_DIR}"
 rm -f libimobiledevice_current
